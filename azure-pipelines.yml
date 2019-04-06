@@ -11,8 +11,5 @@ pool:
 
 steps:
 - script: dotnet --help
-  displayName: 'Try some dotnet help'
-
-steps:
 - script: dotnet run
   displayName: 'Try some dotnet'
