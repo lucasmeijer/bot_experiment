@@ -10,10 +10,5 @@ pool:
   vmImage: 'Ubuntu-16.04'
 
 steps:
-- script: echo Hello, world!
-  displayName: 'Run a one-line script'
-
-- script: |
-    npm install --only=dev pr-bot
-    pr-bot
-  displayName: 'Run the PR bot'
+- script: dotnet run
+  displayName: 'Try some dotnet'
