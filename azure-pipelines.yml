@@ -3,9 +3,6 @@
 # Add steps that build, run tests, deploy, and more:
 # https://aka.ms/yaml
 
-variables:   
-  global_variable: GITHUB_TOKEN    # this is available to all jobs
-
 trigger:
 - master
 
@@ -16,3 +13,5 @@ steps:
 - script: dotnet --help
 - script: dotnet run --project . pieter
   displayName: 'Try some dotnet'
+  env:
+    GITHUB_TOKEN: $(GITHUB_TOKEN)
