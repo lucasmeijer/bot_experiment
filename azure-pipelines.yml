@@ -10,5 +10,9 @@ pool:
   vmImage: 'Ubuntu-16.04'
 
 steps:
+- script: dotnet --help
+  displayName: 'Try some dotnet help'
+
+steps:
 - script: dotnet run
   displayName: 'Try some dotnet'
