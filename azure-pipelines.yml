@@ -14,6 +14,6 @@ steps:
   displayName: 'Run a one-line script'
 
 - script: |
-    npm install -g pr-bot
+    npm install --only=dev pr-bot
     pr-bot
   displayName: 'Run the PR bot'
