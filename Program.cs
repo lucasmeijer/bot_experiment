@@ -6,7 +6,7 @@ namespace bot_experiment
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            Console.WriteLine("Hello World! "+args[0]);
         }
     }
 }

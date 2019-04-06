@@ -11,5 +11,5 @@ pool:
 
 steps:
 - script: dotnet --help
-- script: dotnet run
+- script: dotnet run --project . pieter
   displayName: 'Try some dotnet'
