@@ -1,3 +1,0 @@
-after_script:
-  - npm install -g pr-bot
-  - pr-bot
