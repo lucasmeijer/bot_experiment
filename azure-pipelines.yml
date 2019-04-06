@@ -6,12 +6,25 @@
 trigger:
 - master
 
-pool:
-  vmImage: 'Ubuntu-16.04'
+- job: DetermineBase
+  pool:
+    vmImage: 'Ubuntu-16.04'
 
-steps:
-- script: dotnet --help
-- script: dotnet run --project . pieter
-  displayName: 'Try some dotnet'
-  env:
-    GITHUB_TOKEN: $(GITHUB_TOKEN)
+  steps:
+  - script: dotnet run --project . pieter
+    name: FindBaseStep
+    displayName: 'Try some dotnet'
+    env:
+      GITHUB_TOKEN: $(GITHUB_TOKEN)
+
+- job: RunOnBase
+  dependsOn: DetermineBase
+  pool:
+    vmImage: 'Ubuntu-16.04'
+  variables:
+    myVarFromJobA: $[ dependencies.DetermineBase.outputs['FindBaseStep.PullRequestBase'] ] 
+  steps:
+  - script: echo trying a git checkout $(myVarFromJobA) and clone from $(Build.Repository.Uri)
+  - script: git clone $(Build.Repository.Uri)
+  - script: git checkout $(myVarFromJobA)
+  
