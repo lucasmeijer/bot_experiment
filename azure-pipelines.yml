@@ -34,7 +34,7 @@ jobs:
   - task: PublishPipelineArtifact@0
     inputs:
       artifactName: 'reference_linuxbuild'
-      targetPath: 'build'
+      targetPath: 'beeproject/build'
 
 - job: RunOnTip
   pool:
@@ -45,9 +45,12 @@ jobs:
   - task: PublishPipelineArtifact@0
     inputs:
       artifactName: 'tip_linuxbuild'
-      targetPath: 'build'
+      targetPath: 'beeproject/build'
 
 - job: CompareAndReportOutputs
+  dependsOn: 
+    DetermineBase
+    RunOnTip
   pool:
     vmImage: 'Ubuntu-16.04'
   steps:
