@@ -45,7 +45,7 @@ jobs:
   - task: PublishBuildArtifacts@1
     inputs:
       pathtoPublish: 'beeproject/build'
-      artifactName: 'tip_linuxbuild'     
+      artifactName: 'tip_linuxbuild'
 
 - job: CompareAndReportOutputs
   dependsOn: 
@@ -60,7 +60,7 @@ jobs:
       downloadType: 'single'
       artifactName: 'reference_linuxbuild'
       downloadPath: 'results/reference_linuxbuild'
-  - task: DownloadBuildArtifacts@1
+  - task: DownloadBuildArtifacts@0
     inputs:
       buildType: 'current'
       downloadType: 'single'
