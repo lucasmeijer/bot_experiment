@@ -10,4 +10,16 @@
     <PackageReference Include="Octokit.Reactive" Version="0.32.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Remove="beeproject\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Remove="beeproject\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="beeproject\**" />
+  </ItemGroup>
+
 </Project>
