@@ -11,7 +11,7 @@ namespace bot_experiment
     {
         static void Main(string[] args)
         {
-            string token = Environment.GetEnvironmentVariable("GITHUB_TOKEN") ?? "2ef5160ac642a8c562ed767787ea2b586225cbc9";
+            string token = Environment.GetEnvironmentVariable("GITHUB_TOKEN") ?? "nope";
             Console.WriteLine("GitHub token first few chars: "+token.Substring(0,3));
             Console.WriteLine($"PullRequest number is {Environment.GetEnvironmentVariable("SYSTEM_PULLREQUEST_PULLREQUESTNUMBER") ?? "nonumber"}");
 
