@@ -49,8 +49,8 @@ jobs:
 
 - job: CompareAndReportOutputs
   dependsOn: 
-    DetermineBase
-    RunOnTip
+    - DetermineBase
+    - RunOnTip
   pool:
     vmImage: 'Ubuntu-16.04'
   steps:
