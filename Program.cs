@@ -19,7 +19,7 @@ namespace bot_experiment
             
             var pr = client.PullRequest.Get("lucasmeijer", "bot_experiment", 1).Subscribe(a =>
                 {
-                    Console.WriteLine($"##vso[task.setvariable variable=PullRequestBase;isOutput=true]{a.Base.Sha}");
+                    Console.WriteLine("##vso[task.setvariable variable=PullRequestBase;isOutput=true]d1294391ab66438a39a613673f01ee190b96787b");
                     Console.WriteLine($"Base is {a.Base.Sha}");
                     Console.WriteLine($"Head is {a.Head.Sha}");
                     
