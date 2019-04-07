@@ -31,10 +31,10 @@ jobs:
     displayName: 'Manual git checkout'
   - script: mono bee.exe
     workingDirectory: beeproject
-  - task: PublishBuildArtifacts@0
+  - task: PublishBuildArtifacts@1
     inputs:
       pathtoPublish: 'beeproject/build'
-      artifactName: 'reference_linuxbuild'     
+      artifactName: 'reference_linuxbuild'
 
 - job: RunOnTip
   pool:
@@ -42,7 +42,7 @@ jobs:
   steps:
   - script: mono bee.exe
     workingDirectory: beeproject
-  - task: PublishBuildArtifacts@0
+  - task: PublishBuildArtifacts@1
     inputs:
       pathtoPublish: 'beeproject/build'
       artifactName: 'tip_linuxbuild'     
