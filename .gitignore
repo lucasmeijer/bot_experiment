@@ -1,2 +1,6 @@
 obj/
 bin/
+beeproject/artifacts/
+*.gen.*
+beeproject/build/helloworld.exe
+beeproject/build/

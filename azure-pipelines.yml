@@ -25,7 +25,10 @@ jobs:
   variables:
     myVarFromJobA: $[ dependencies.DetermineBase.outputs['FindBaseStep.PullRequestBase'] ] 
   steps:
-  - script: echo trying a git checkout $(myVarFromJobA) and clone from $(Build.Repository.Uri)
   - script: git clone $(Build.Repository.Uri)
+    displayName: 'Manual git clone'
   - script: git checkout $(myVarFromJobA)
-  
+    displayName: 'Manual git checkout'
+  - script: mono bee.exe
+    workingDirectory: beeproject
+
