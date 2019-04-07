@@ -31,10 +31,10 @@ jobs:
     displayName: 'Manual git checkout'
   - script: mono bee.exe
     workingDirectory: beeproject
-  - task: PublishPipelineArtifact@0
+  - task: PublishBuildArtifacts@0
     inputs:
-      artifactName: 'reference_linuxbuild'
-      targetPath: 'beeproject/build'
+      pathtoPublish: 'beeproject/build'
+      artifactName: reference_linuxbuild     
 
 - job: RunOnTip
   pool:
@@ -42,10 +42,10 @@ jobs:
   steps:
   - script: mono bee.exe
     workingDirectory: beeproject
-  - task: PublishPipelineArtifact@0
+  - task: PublishBuildArtifacts@0
     inputs:
-      artifactName: 'tip_linuxbuild'
-      targetPath: 'beeproject/build'
+      pathtoPublish: 'beeproject/build'
+      artifactName: tip_linuxbuild     
 
 - job: CompareAndReportOutputs
   dependsOn: 
@@ -54,14 +54,17 @@ jobs:
   pool:
     vmImage: 'Ubuntu-16.04'
   steps:
-  - task: DownloadPipelineArtifact@0
-    displayName: Download Reference Artifacts
+
+  - task: DownloadBuildArtifacts@0
     inputs:
+      buildType: 'current'
+      downloadType: 'single'
       artifactName: 'reference_linuxbuild'
-      targetPath: results/reference_linuxbuild
-  - task: DownloadPipelineArtifact@0
-    displayName: Download Tip Artifacts
+      downloadPath: 'results/reference_linuxbuild'
+  - task: DownloadBuildArtifacts@1
     inputs:
+      buildType: 'current'
+      downloadType: 'single'
       artifactName: 'tip_linuxbuild'
-      targetPath: results/tip_linuxbuild
+      downloadPath: 'results/tip_linuxbuild'
   - script: ls -l results
