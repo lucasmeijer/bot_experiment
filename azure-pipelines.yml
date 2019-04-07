@@ -34,7 +34,7 @@ jobs:
   - task: PublishBuildArtifacts@0
     inputs:
       pathtoPublish: 'beeproject/build'
-      artifactName: reference_linuxbuild     
+      artifactName: 'reference_linuxbuild'     
 
 - job: RunOnTip
   pool:
@@ -45,7 +45,7 @@ jobs:
   - task: PublishBuildArtifacts@0
     inputs:
       pathtoPublish: 'beeproject/build'
-      artifactName: tip_linuxbuild     
+      artifactName: 'tip_linuxbuild'     
 
 - job: CompareAndReportOutputs
   dependsOn: 
@@ -54,7 +54,6 @@ jobs:
   pool:
     vmImage: 'Ubuntu-16.04'
   steps:
-
   - task: DownloadBuildArtifacts@0
     inputs:
       buildType: 'current'
