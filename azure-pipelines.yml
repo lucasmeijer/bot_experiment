@@ -44,9 +44,10 @@ jobs:
     myVarFromJobA: $[ dependencies.DetermineBase.outputs['FindBaseStep.TestMergeCommit'] ] 
     PullID: $[ dependencies.DetermineBase.outputs['FindBaseStep.PullID'] ] 
   steps:
-  - script: git clone $(Build.Repository.Uri)
-    script: git fetch origin +/refs/pull/$(PullID)/merge
-    script: git checkout $(myVarFromJobA)
+  - script: 
+      git clone $(Build.Repository.Uri)
+      git fetch origin +/refs/pull/$(PullID)/merge
+      git checkout $(myVarFromJobA)
     displayName: 'Manual git checkout'
   - script: mono bee.exe
     workingDirectory: beeproject
