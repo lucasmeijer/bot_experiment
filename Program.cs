@@ -20,7 +20,8 @@ namespace bot_experiment
             var credentials = new InMemoryCredentialStore(new Credentials(token));
             var client = new ObservableGitHubClient(new ProductHeaderValue("ophion"), credentials);
             
-            var pr = client.PullRequest.Get("lucasmeijer", "bot_experiment", 2).Subscribe(async a =>
+            var pullID = 2;
+            var pr = client.PullRequest.Get("lucasmeijer", "bot_experiment", pullID).Subscribe(async a =>
                 {
                     
                    // if (a.Mergeable != true)
@@ -32,6 +33,7 @@ namespace bot_experiment
                         var referenceCommit = commit.Parents.First(p => p != a.Head);
                         Console.WriteLine($"##vso[task.setvariable variable=PullRequestBase;isOutput=true]{referenceCommit.Sha}");
                         Console.WriteLine($"##vso[task.setvariable variable=TestMergeCommit;isOutput=true]{commit.Sha}");
+                        Console.WriteLine($"##vso[task.setvariable variable=PullID;isOutput=true]{pullID}");
 
                         Console.WriteLine($"referenceCommit is {referenceCommit.Sha}");
                         Console.WriteLine($"testMergeCommit is {commit.Sha}");

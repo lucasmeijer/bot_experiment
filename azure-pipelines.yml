@@ -42,10 +42,11 @@ jobs:
     vmImage: 'Ubuntu-16.04'
   variables:
     myVarFromJobA: $[ dependencies.DetermineBase.outputs['FindBaseStep.TestMergeCommit'] ] 
+    PullID: $[ dependencies.DetermineBase.outputs['FindBaseStep.PullID'] ] 
   steps:
   - script: git clone $(Build.Repository.Uri)
-    displayName: 'Manual git clone'
-  - script: git checkout $(myVarFromJobA)
+    script: git fetch origin +/refs/pull/$(PullID)/merge
+    script: git checkout $(myVarFromJobA)
     displayName: 'Manual git checkout'
   - script: mono bee.exe
     workingDirectory: beeproject
