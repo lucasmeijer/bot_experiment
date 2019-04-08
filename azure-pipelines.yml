@@ -18,6 +18,30 @@ jobs:
     env:
       GITHUB_TOKEN: $(GITHUB_TOKEN)
 
+
+- job: RunOnTip
+  dependsOn: DetermineBase
+  pool:
+    vmImage: 'Ubuntu-16.04'
+  variables:
+    myVarFromJobA: $[ dependencies.DetermineBase.outputs['FindBaseStep.TestMergeCommit'] ] 
+    PullID: $[ dependencies.DetermineBase.outputs['FindBaseStep.PullID'] ] 
+  steps:
+  - script: 
+      git clone $(Build.Repository.Uri)
+  - script: 
+      git fetch origin +/refs/pull/$(PullID)/merge
+  - script: 
+      git checkout $(myVarFromJobA)
+    displayName: 'Manual git checkout'
+  - script: mono bee.exe
+    workingDirectory: beeproject
+  - task: PublishBuildArtifacts@1
+    inputs:
+      pathtoPublish: 'beeproject/build'
+      artifactName: 'tip_linuxbuild'
+
+
 - job: RunOnBase
   dependsOn: DetermineBase
   pool:
@@ -35,26 +59,6 @@ jobs:
     inputs:
       pathtoPublish: 'beeproject/build'
       artifactName: 'reference_linuxbuild'
-
-- job: RunOnTip
-  dependsOn: DetermineBase
-  pool:
-    vmImage: 'Ubuntu-16.04'
-  variables:
-    myVarFromJobA: $[ dependencies.DetermineBase.outputs['FindBaseStep.TestMergeCommit'] ] 
-    PullID: $[ dependencies.DetermineBase.outputs['FindBaseStep.PullID'] ] 
-  steps:
-  - script: 
-      git clone $(Build.Repository.Uri)
-      git fetch origin +/refs/pull/$(PullID)/merge
-      git checkout $(myVarFromJobA)
-    displayName: 'Manual git checkout'
-  - script: mono bee.exe
-    workingDirectory: beeproject
-  - task: PublishBuildArtifacts@1
-    inputs:
-      pathtoPublish: 'beeproject/build'
-      artifactName: 'tip_linuxbuild'
 
 - job: CompareAndReportOutputs
   dependsOn: 
