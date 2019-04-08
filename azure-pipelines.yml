@@ -14,7 +14,7 @@ jobs:
   steps:
   - script: dotnet run --project . pieter
     name: FindBaseStep
-    displayName: 'Try some dotnet'
+    displayName: 'Find testmerge commit and reference commit'
     env:
       GITHUB_TOKEN: $(GITHUB_TOKEN)
 
@@ -37,8 +37,11 @@ jobs:
       artifactName: 'reference_linuxbuild'
 
 - job: RunOnTip
+  dependsOn: DetermineBase
   pool:
     vmImage: 'Ubuntu-16.04'
+  variables:
+    myVarFromJobA: $[ dependencies.DetermineBase.outputs['FindBaseStep.TestMergeCommit'] ] 
   steps:
   - script: mono bee.exe
     workingDirectory: beeproject

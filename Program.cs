@@ -23,8 +23,8 @@ namespace bot_experiment
             var pr = client.PullRequest.Get("lucasmeijer", "bot_experiment", 2).Subscribe(async a =>
                 {
                     
-                    if (a.Mergeable != true)
-                        throw new Exception("This PR is not reporting itself as mergable");
+                   // if (a.Mergeable != true)
+                   //     throw new Exception("This PR is not reporting itself as mergable");
 
                     var mergeCommit = a.MergeCommitSha;
                     var queryCommit = client.Repository.Commit.Get("lucasmeijer", "bot_experiment", mergeCommit).Subscribe(commit =>
