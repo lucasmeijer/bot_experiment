@@ -30,7 +30,7 @@ jobs:
   - script: 
       git clone $(Build.Repository.Uri)
   - script: 
-      git fetch origin +/refs/pull/$(PullID)/merge
+      git fetch origin +refs/pull/$(PullID)/merge
   - script: 
       git checkout $(myVarFromJobA)
     displayName: 'Manual git checkout'
