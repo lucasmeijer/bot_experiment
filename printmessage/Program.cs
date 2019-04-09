@@ -7,7 +7,6 @@ namespace printmessage
         static void Main(string[] args)
         {
             Console.WriteLine("##vso[task.uploadsummary]testsummary.md");
-            Console.WriteLine("##vso[task.uploadsummary]../testsummary.md");
         }
     }
 }
