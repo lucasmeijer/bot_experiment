@@ -13,8 +13,9 @@ jobs:
     vmImage: 'Ubuntu-16.04'
 
   steps:
-  - script: 'echo ##vso[task.uploadsummary]testsummary.md'
-
+   steps:
+   - script: dotnet run
+     workingDirectory: printmessage
 
 # jobs:
 # - job: DetermineBase
