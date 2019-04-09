@@ -13,9 +13,8 @@ jobs:
     vmImage: 'Ubuntu-16.04'
 
   steps:
-   steps:
-   - script: dotnet run
-     workingDirectory: printmessage
+  - script: dotnet run
+    workingDirectory: printmessage
 
 # jobs:
 # - job: DetermineBase
