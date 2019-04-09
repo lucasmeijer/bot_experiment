@@ -6,77 +6,87 @@
 trigger:
 - master
 
+
 jobs:
-- job: DetermineBase
+- job: TestReporting
   pool:
     vmImage: 'Ubuntu-16.04'
 
   steps:
-  - script: dotnet run --project . pieter
-    name: FindBaseStep
-    displayName: 'Find testmerge commit and reference commit'
-    env:
-      GITHUB_TOKEN: $(GITHUB_TOKEN)
+  - script: 'echo ##vso[task.uploadsummary]testsummary.md'
 
 
-- job: RunOnTip
-  dependsOn: DetermineBase
-  pool:
-    vmImage: 'Ubuntu-16.04'
-  variables:
-    myVarFromJobA: $[ dependencies.DetermineBase.outputs['FindBaseStep.TestMergeCommit'] ] 
-    PullID: $[ dependencies.DetermineBase.outputs['FindBaseStep.PullID'] ] 
-  steps:
-  - script: 
-      git fetch origin +refs/pull/$(PullID)/merge
-  - script: 
-      ls -R -l
-  - script: 
-      git checkout $(myVarFromJobA)
-    displayName: 'Manual git checkout'
-  - script: mono bee.exe
-    workingDirectory: beeproject
-  - task: PublishBuildArtifacts@1
-    inputs:
-      pathtoPublish: 'beeproject/build'
-      artifactName: 'tip_linuxbuild'
+# jobs:
+# - job: DetermineBase
+#   pool:
+#     vmImage: 'Ubuntu-16.04'
+
+#   steps:
+#   - script: dotnet run --project . pieter
+#     name: FindBaseStep
+#     displayName: 'Find testmerge commit and reference commit'
+#     env:
+#       GITHUB_TOKEN: $(GITHUB_TOKEN)
 
 
-- job: RunOnBase
-  dependsOn: DetermineBase
-  pool:
-    vmImage: 'Ubuntu-16.04'
-  variables:
-    myVarFromJobA: $[ dependencies.DetermineBase.outputs['FindBaseStep.PullRequestBase'] ] 
-  steps:
-  - script: git clone $(Build.Repository.Uri)
-    displayName: 'Manual git clone'
-  - script: git checkout $(myVarFromJobA)
-    displayName: 'Manual git checkout'
-  - script: mono bee.exe
-    workingDirectory: beeproject
-  - task: PublishBuildArtifacts@1
-    inputs:
-      pathtoPublish: 'beeproject/build'
-      artifactName: 'reference_linuxbuild'
+# - job: RunOnTip
+#   dependsOn: DetermineBase
+#   pool:
+#     vmImage: 'Ubuntu-16.04'
+#   variables:
+#     myVarFromJobA: $[ dependencies.DetermineBase.outputs['FindBaseStep.TestMergeCommit'] ] 
+#     PullID: $[ dependencies.DetermineBase.outputs['FindBaseStep.PullID'] ] 
+#   steps:
+#   - script: 
+#       git fetch origin +refs/pull/$(PullID)/merge
+#   - script: 
+#       ls -R -l
+#   - script: 
+#       git checkout $(myVarFromJobA)
+#     displayName: 'Manual git checkout'
+#   - script: mono bee.exe
+#     workingDirectory: beeproject
+#   - task: PublishBuildArtifacts@1
+#     inputs:
+#       pathtoPublish: 'beeproject/build'
+#       artifactName: 'tip_linuxbuild'
 
-- job: CompareAndReportOutputs
-  dependsOn: 
-    - DetermineBase
-    - RunOnTip
-  pool:
-    vmImage: 'Ubuntu-16.04'
-  steps:
-  - task: DownloadBuildArtifacts@0
-    inputs:
-      buildType: 'current'
-      downloadType: 'single'
-      artifactName: 'reference_linuxbuild'
-      downloadPath: 'results/reference_linuxbuild'
-  - task: DownloadBuildArtifacts@0
-    inputs:
-      buildType: 'current'
-      downloadType: 'single'
-      artifactName: 'tip_linuxbuild'
-      downloadPath: 'results/tip_linuxbuild'
-  - script: ls -l -R results
+
+# - job: RunOnBase
+#   dependsOn: DetermineBase
+#   pool:
+#     vmImage: 'Ubuntu-16.04'
+#   variables:
+#     myVarFromJobA: $[ dependencies.DetermineBase.outputs['FindBaseStep.PullRequestBase'] ] 
+#   steps:
+#   - script: git clone $(Build.Repository.Uri)
+#     displayName: 'Manual git clone'
+#   - script: git checkout $(myVarFromJobA)
+#     displayName: 'Manual git checkout'
+#   - script: mono bee.exe
+#     workingDirectory: beeproject
+#   - task: PublishBuildArtifacts@1
+#     inputs:
+#       pathtoPublish: 'beeproject/build'
+#       artifactName: 'reference_linuxbuild'
+
+# - job: CompareAndReportOutputs
+#   dependsOn: 
+#     - DetermineBase
+#     - RunOnTip
+#   pool:
+#     vmImage: 'Ubuntu-16.04'
+#   steps:
+#   - task: DownloadBuildArtifacts@0
+#     inputs:
+#       buildType: 'current'
+#       downloadType: 'single'
+#       artifactName: 'reference_linuxbuild'
+#       downloadPath: 'results'
+#   - task: DownloadBuildArtifacts@0
+#     inputs:
+#       buildType: 'current'
+#       downloadType: 'single'
+#       artifactName: 'tip_linuxbuild'
+#       downloadPath: 'results'
+#   - script: ls -l -R results
