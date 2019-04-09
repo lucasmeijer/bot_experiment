@@ -13,6 +13,7 @@ jobs:
     vmImage: 'Ubuntu-16.04'
 
   steps:
+  - script: ls -R -l
   - script: dotnet run
     workingDirectory: printmessage
 
